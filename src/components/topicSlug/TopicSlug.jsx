@@ -11,7 +11,7 @@ const TopicSlug = () => {
 
   useEffect(() => {
     setTopicLoading(true);
-    fetchSingles(`/topics/${slug}`).then((data) => {
+    fetchSingles(`/topics/${slug}`, {}).then((data) => {
       setTopic(data);
       setTopicLoading(false);
     });
@@ -26,7 +26,7 @@ const TopicSlug = () => {
       ) : (
         <h3 className="text-m font-bold p-2 m-2 capitalize">{topic.description}</h3>
       )}
-      <ArticleList endpoint={`/articles?topic=${slug}`} />
+      <ArticleList endpoint={`/articles`} params={{ topic: slug }} />
     </div>
   );
 };

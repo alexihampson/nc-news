@@ -5,7 +5,7 @@ const Articles = () => {
   return (
     <div>
       <ArticleBar />
-      <ArticleList endpoint={"/articles"} />
+      <ArticleList endpoint={"/articles"} params={{}} />
     </div>
   );
 };
