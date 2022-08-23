@@ -19,3 +19,7 @@ export const fetchSingles = (endpoint, params) => {
       return res.data[key];
     });
 };
+
+export const patchSingle = (endpoint, body) => {
+  return axios.patch(`https://alexi-news-api.herokuapp.com/api/${endpoint}`, body);
+};
