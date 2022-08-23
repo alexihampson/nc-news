@@ -16,8 +16,8 @@ const ArticleList = ({ endpoint, params }) => {
 
   if (articlesLoading)
     return (
-      <div>
-        <h3>Loading...</h3>
+      <div className="border-2 border-white rounded m-4 p-2 sm:max-w-xl sm:mx-auto">
+        <h3 className="text-xl font-bold p-1 m-3">Loading...</h3>
       </div>
     );
 

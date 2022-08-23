@@ -1,7 +1,7 @@
 const axios = require("axios");
 
-export const fetchLists = (endpoint, params) => {
-  const key = endpoint.split("/").slice(-1)[0];
+export const fetchLists = (endpoint, params, key) => {
+  key = key || endpoint.split("/").slice(-1)[0];
 
   return axios
     .get(`https://alexi-news-api.herokuapp.com/api${endpoint}`, { params })
