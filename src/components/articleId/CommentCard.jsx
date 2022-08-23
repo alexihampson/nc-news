@@ -1,18 +1,11 @@
 import { useState } from "react";
-import { patchSingle } from "../../api";
+import { handleVote } from "../../utils";
 
-const CommentCard = ({ comment, setErr, errReset }) => {
+const CommentCard = ({ comment, setErr }) => {
   const [votes, setVotes] = useState(comment.votes);
 
-  const handleVote = (event) => {
-    const inc_votes = event.target.id === "upvote" ? 1 : -1;
-    setVotes((currVotes) => currVotes + inc_votes);
-    setErr(null);
-    patchSingle(`/comments/${comment.comment_id}`, { inc_votes }).catch(() => {
-      setVotes((currVotes) => currVotes - inc_votes);
-      setErr("There was an issue, please retry");
-      setTimeout(errReset, 5000);
-    });
+  const handleButton = (event) => {
+    handleVote(event, `/comments/${comment.comment_id}`, setErr, setVotes);
   };
 
   return (
@@ -23,14 +16,14 @@ const CommentCard = ({ comment, setErr, errReset }) => {
       <div className="col-start-1 row-start-3 grid grid-cols-2">
         <button
           id="upvote"
-          onClick={handleVote}
+          onClick={handleButton}
           className="rounded-full bg-white py-1 px-3 m-auto sm:hover:bg-slate-400 w-fit col-auto"
         >
           &uarr;
         </button>
         <button
           id="downvote"
-          onClick={handleVote}
+          onClick={handleButton}
           className="rounded-full bg-white py-1 px-3 m-auto sm:hover:bg-slate-400 w-fit col-auto"
         >
           &darr;

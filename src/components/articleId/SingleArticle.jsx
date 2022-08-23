@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchSingles, patchSingle } from "../../api";
+import { fetchSingles } from "../../api";
 import CommentList from "./CommentList";
+import { handleVote } from "../../utils";
 
 const SingleArticle = () => {
   const { article_id } = useParams();
@@ -25,19 +26,8 @@ const SingleArticle = () => {
       });
   }, [article_id]);
 
-  const errReset = () => {
-    setErr(null);
-  };
-
-  const handleVote = (event) => {
-    const inc_votes = event.target.id === "upvote" ? 1 : -1;
-    setVotes((currVotes) => currVotes + inc_votes);
-    setErr(null);
-    patchSingle(`/articles/${article_id}`, { inc_votes }).catch(() => {
-      setVotes((currVotes) => currVotes - inc_votes);
-      setErr("There was an issue, please retry");
-      setTimeout(errReset, 5000);
-    });
+  const handleButton = (event) => {
+    handleVote(event, `/articles/${article_id}`, setErr, setVotes);
   };
 
   return (
@@ -79,14 +69,14 @@ const SingleArticle = () => {
                 <button
                   className="rounded-full bg-white py-1 px-3 m-auto sm:hover:bg-slate-400 w-fit col-auto"
                   id="upvote"
-                  onClick={handleVote}
+                  onClick={handleButton}
                 >
                   &uarr;
                 </button>
                 <button
                   className="rounded-full bg-white py-1 px-3 m-auto sm:hover:bg-slate-400 w-fit col-auto"
                   id="downvote"
-                  onClick={handleVote}
+                  onClick={handleButton}
                 >
                   &darr;
                 </button>
@@ -97,12 +87,7 @@ const SingleArticle = () => {
       </div>
       <div className="sm:max-w-sm sm:col-start-3">
         <h2 className="text-xl font-bold p-1 sm:text-left">Comments</h2>
-        <CommentList
-          endpoint={`/articles/${article_id}/comments`}
-          params={{}}
-          setErr={setErr}
-          errReset={errReset}
-        />
+        <CommentList endpoint={`/articles/${article_id}/comments`} params={{}} setErr={setErr} />
       </div>
       {err ? (
         <div className="fixed top-28 w-full">
