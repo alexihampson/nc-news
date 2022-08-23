@@ -2,17 +2,17 @@ import ArticleCard from "./ArticleCard";
 import { fetchLists } from "../../api";
 import { useState, useEffect } from "react";
 
-const ArticleList = () => {
+const ArticleList = ({ endpoint, params }) => {
   const [articles, setArticles] = useState([]);
   const [articlesLoading, setArticlesLoading] = useState(true);
 
   useEffect(() => {
     setArticlesLoading(true);
-    fetchLists("/articles").then((articles) => {
+    fetchLists(endpoint, params).then((articles) => {
       setArticles(articles);
       setArticlesLoading(false);
     });
-  }, []);
+  }, [endpoint, params]);
 
   if (articlesLoading)
     return (

@@ -3,6 +3,7 @@ import Header from "./components/header/Header";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./components/landing/LandingPage";
 import Articles from "./components/articles/Articles";
+import TopicSlug from "./components/topicSlug/TopicSlug";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/articles" element={<Articles />} />
+        <Route path="/topics/:slug" element={<TopicSlug />} />
       </Routes>
     </div>
   );
