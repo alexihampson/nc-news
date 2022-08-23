@@ -23,3 +23,7 @@ export const fetchSingles = (endpoint, params) => {
 export const patchSingle = (endpoint, body) => {
   return axios.patch(`https://alexi-news-api.herokuapp.com/api/${endpoint}`, body);
 };
+
+export const postSingle = (endpoint, body) => {
+  return axios.post(`https://alexi-news-api.herokuapp.com/api/${endpoint}`, body);
+};

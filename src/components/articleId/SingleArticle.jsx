@@ -1,19 +1,25 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { fetchSingles } from "../../api";
+import { useEffect, useState, useContext } from "react";
+import { fetchSingles, postSingle, fetchLists } from "../../api";
 import CommentList from "./CommentList";
 import { handleVote } from "../../utils";
+import { UserContext } from "../../context/user";
 
 const SingleArticle = () => {
+  const { user } = useContext(UserContext);
   const { article_id } = useParams();
   const [article, setArticle] = useState({});
   const [author, setAuthor] = useState({});
   const [articleLoading, setArticleLoading] = useState(true);
   const [votes, setVotes] = useState(0);
   const [err, setErr] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [commentsLoading, setCommentsLoading] = useState(true);
+  const [commentDisplay, setCommentDisplay] = useState(false);
 
   useEffect(() => {
     setArticleLoading(true);
+    setCommentsLoading(true);
     fetchSingles(`/articles/${article_id}`, {})
       .then((article) => {
         setArticle(article);
@@ -23,11 +29,38 @@ const SingleArticle = () => {
       .then((author) => {
         setAuthor(author);
         setArticleLoading(false);
+        return fetchLists(`/articles/${article_id}/comments`, {}, "comments");
+      })
+      .then((comments) => {
+        setComments(comments);
+        setCommentsLoading(false);
       });
   }, [article_id]);
 
   const handleButton = (event) => {
     handleVote(event, `/articles/${article_id}`, setErr, setVotes);
+  };
+
+  const errReset = () => {
+    setErr(null);
+  };
+
+  const handlePost = (event) => {
+    event.preventDefault();
+    setCommentDisplay(false);
+    postSingle(`/articles/${article_id}/comments`, {
+      username: user.username,
+      body: event.target[0].value,
+    })
+      .then(({ data: { comment } }) => {
+        setComments((currComment) => {
+          return [comment, ...currComment];
+        });
+      })
+      .catch(() => {
+        setErr("Failed to submit comment");
+        setTimeout(errReset, 5000);
+      });
   };
 
   return (
@@ -86,8 +119,37 @@ const SingleArticle = () => {
         )}
       </div>
       <div className="sm:max-w-sm sm:col-start-3">
-        <h2 className="text-xl font-bold p-1 sm:text-left">Comments</h2>
-        <CommentList endpoint={`/articles/${article_id}/comments`} params={{}} setErr={setErr} />
+        <div className="grid grid-cols-[auto_auto]">
+          <h2 className="text-xl font-bold p-1 sm:text-left col-auto my-auto text-left ml-5">
+            Comments
+          </h2>
+          <button
+            className="rounded-full bg-white py-2 px-3 m-4 sm:hover:bg-slate-400 col-auto disabled:opacity-50"
+            disabled={user.username ? false : true}
+            onClick={() => {
+              setCommentDisplay(true);
+            }}
+          >
+            Post New Comment
+          </button>
+        </div>
+        {commentDisplay ? (
+          <form onSubmit={handlePost}>
+            <label htmlFor="comment-box" style={{ display: "none" }}>
+              Comment
+            </label>
+            <textarea name="comment-box" id="comment-box" rows="4" cols="30"></textarea>
+            <input
+              type="submit"
+              value="Submit"
+              className="rounded-full bg-white py-2 px-3 m-4 sm:hover:bg-slate-400 disabled:opacity-50"
+              disabled={user.username ? false : true}
+            />
+          </form>
+        ) : (
+          <></>
+        )}
+        <CommentList comments={comments} commentsLoading={commentsLoading} setErr={setErr} />
       </div>
       {err ? (
         <div className="fixed top-28 w-full">

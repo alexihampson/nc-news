@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { handleVote } from "../../utils";
 
 const CommentCard = ({ comment, setErr }) => {
   const [votes, setVotes] = useState(comment.votes);
+
+  useEffect(() => {
+    setVotes(comment.votes);
+  }, [comment]);
 
   const handleButton = (event) => {
     handleVote(event, `/comments/${comment.comment_id}`, setErr, setVotes);

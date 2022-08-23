@@ -1,19 +1,6 @@
 import CommentCard from "./CommentCard";
-import { fetchLists } from "../../api";
-import { useEffect, useState } from "react";
 
-const CommentList = ({ endpoint, params, setErr }) => {
-  const [comments, setComments] = useState([]);
-  const [commentsLoading, setCommentsLoading] = useState(true);
-
-  useEffect(() => {
-    setCommentsLoading(true);
-    fetchLists(endpoint, params, "comments").then((comments) => {
-      setComments(comments);
-      setCommentsLoading(false);
-    });
-  }, [endpoint, params]);
-
+const CommentList = ({ comments, commentsLoading, setErr }) => {
   if (commentsLoading)
     return (
       <div className="border-2 border-white rounded m-4 p-2 sm:max-w-m sm:mx-auto">
