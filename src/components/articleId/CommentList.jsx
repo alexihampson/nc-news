@@ -2,7 +2,7 @@ import CommentCard from "./CommentCard";
 import { fetchLists } from "../../api";
 import { useEffect, useState } from "react";
 
-const CommentList = ({ endpoint, params }) => {
+const CommentList = ({ endpoint, params, setErr }) => {
   const [comments, setComments] = useState([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
 
@@ -25,7 +25,7 @@ const CommentList = ({ endpoint, params }) => {
     <div>
       <ul>
         {comments.map((comment, index) => {
-          return <CommentCard key={index} comment={comment} />;
+          return <CommentCard key={index} comment={comment} setErr={setErr} />;
         })}
       </ul>
     </div>
