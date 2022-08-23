@@ -1,6 +1,23 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/user";
 
 const NavBar = () => {
+  const { user, setUser } = useContext(UserContext);
+
+  const handleSignIn = () => {
+    setUser({
+      username: "grumpy19",
+      name: "Paul Grump",
+      avatar_url:
+        "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013",
+    });
+  };
+
+  const handleSignOut = () => {
+    setUser({ username: null });
+  };
+
   return (
     <nav className=" grid grid-cols-3 grid-rows-1 my-4">
       <div className="col-auto row-auto">
@@ -9,7 +26,18 @@ const NavBar = () => {
       <div className="col-auto row-auto">
         <span to="/topics">Topics</span>
       </div>
-      <div className="col-auto row-auto">Sign In</div>
+      {user.username ? (
+        <div className="col-auto row-auto" onClick={handleSignOut}>
+          <div className="grid grid-cols-[auto_auto]">
+            <span className="col-auto">{user.username}</span>
+            <img src={user.avatar_url} alt="User Icon" className="h-5 col-auto" />
+          </div>
+        </div>
+      ) : (
+        <div className="col-auto row-auto" onClick={handleSignIn}>
+          Sign In
+        </div>
+      )}
     </nav>
   );
 };
