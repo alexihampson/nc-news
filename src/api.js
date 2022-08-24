@@ -6,7 +6,7 @@ export const fetchLists = (endpoint, params, key) => {
   return axios
     .get(`https://alexi-news-api.herokuapp.com/api${endpoint}`, { params })
     .then((res) => {
-      return res.data[key];
+      return [res.data[key], res.data.total_count];
     });
 };
 

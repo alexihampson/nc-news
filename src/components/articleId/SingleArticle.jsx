@@ -31,7 +31,7 @@ const SingleArticle = () => {
         setArticleLoading(false);
         return fetchLists(`/articles/${article_id}/comments`, {}, "comments");
       })
-      .then((comments) => {
+      .then(([comments]) => {
         setComments(comments);
         setCommentsLoading(false);
       });
