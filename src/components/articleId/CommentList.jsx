@@ -1,6 +1,6 @@
 import CommentCard from "./CommentCard";
 
-const CommentList = ({ comments, commentsLoading, setErr }) => {
+const CommentList = ({ comments, commentsLoading }) => {
   if (commentsLoading)
     return (
       <div className="border-2 border-white rounded m-4 p-2 sm:max-w-m sm:mx-auto">
@@ -12,7 +12,7 @@ const CommentList = ({ comments, commentsLoading, setErr }) => {
     <div>
       <ul>
         {comments.map((comment, index) => {
-          return <CommentCard key={index} comment={comment} setErr={setErr} />;
+          return <CommentCard key={index} comment={comment} />;
         })}
       </ul>
     </div>

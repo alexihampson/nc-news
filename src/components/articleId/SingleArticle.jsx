@@ -2,17 +2,18 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { fetchSingles, postSingle, fetchLists } from "../../api";
 import CommentList from "./CommentList";
-import { handleVote } from "../../utils";
+import { handleVote, errReset } from "../../utils";
 import { UserContext } from "../../context/user";
+import { ErrContext } from "../../context/err";
 
 const SingleArticle = () => {
   const { user } = useContext(UserContext);
+  const { setErr } = useContext(ErrContext);
   const { article_id } = useParams();
   const [article, setArticle] = useState({});
   const [author, setAuthor] = useState({});
   const [articleLoading, setArticleLoading] = useState(true);
   const [votes, setVotes] = useState(0);
-  const [err, setErr] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [commentDisplay, setCommentDisplay] = useState(false);
@@ -41,10 +42,6 @@ const SingleArticle = () => {
     handleVote(event, `/articles/${article_id}`, setErr, setVotes);
   };
 
-  const errReset = () => {
-    setErr(null);
-  };
-
   const handlePost = (event) => {
     event.preventDefault();
     setCommentDisplay(false);
@@ -59,7 +56,7 @@ const SingleArticle = () => {
       })
       .catch(() => {
         setErr("Failed to submit comment");
-        setTimeout(errReset, 5000);
+        setTimeout(errReset, 5000, setErr);
       });
   };
 
@@ -149,19 +146,8 @@ const SingleArticle = () => {
         ) : (
           <></>
         )}
-        <CommentList comments={comments} commentsLoading={commentsLoading} setErr={setErr} />
+        <CommentList comments={comments} commentsLoading={commentsLoading} />
       </div>
-      {err ? (
-        <div className="fixed top-28 w-full">
-          <div className="flex justify-center text-center text-white">
-            <div className="bg-red-800 rounded py-4 px-2 w-fit">
-              <p>{err}</p>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
     </div>
   );
 };
