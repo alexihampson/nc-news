@@ -146,7 +146,11 @@ const SingleArticle = () => {
         ) : (
           <></>
         )}
-        <CommentList comments={comments} commentsLoading={commentsLoading} />
+        <CommentList
+          comments={comments}
+          commentsLoading={commentsLoading}
+          setComments={setComments}
+        />
       </div>
     </div>
   );

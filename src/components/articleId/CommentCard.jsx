@@ -4,7 +4,7 @@ import { UserContext } from "../../context/user";
 import { deleteSingle } from "../../api";
 import { ErrContext } from "../../context/err";
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ comment, setComments }) => {
   const { user } = useContext(UserContext);
   const { setErr } = useContext(ErrContext);
   const [votes, setVotes] = useState(comment.votes);
@@ -20,11 +20,17 @@ const CommentCard = ({ comment }) => {
 
   const handleDelete = () => {
     setCommentDisplay(false);
-    deleteSingle(`/comments/${comment.comment_id}`).catch(() => {
-      setCommentDisplay(true);
-      setErr("An issue occured, please try again");
-      setTimeout(errReset, 5000, setErr);
-    });
+    deleteSingle(`/comments/${comment.comment_id}`)
+      .then(() => {
+        setComments((currComments) => {
+          return currComments.filter((element) => element.comment_id !== comment.comment_id);
+        });
+      })
+      .catch(() => {
+        setCommentDisplay(true);
+        setErr("An issue occured, please try again");
+        setTimeout(errReset, 5000, setErr);
+      });
   };
 
   return (
