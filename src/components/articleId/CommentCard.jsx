@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
-import { handleVote } from "../../utils";
+import { useState, useEffect, useContext } from "react";
+import { handleVote, errReset } from "../../utils";
+import { UserContext } from "../../context/user";
+import { deleteSingle } from "../../api";
+import { ErrContext } from "../../context/err";
 
-const CommentCard = ({ comment, setErr }) => {
+const CommentCard = ({ comment }) => {
+  const { user } = useContext(UserContext);
+  const { setErr } = useContext(ErrContext);
   const [votes, setVotes] = useState(comment.votes);
+  const [commentDisplay, setCommentDisplay] = useState(true);
 
   useEffect(() => {
     setVotes(comment.votes);
@@ -12,8 +18,22 @@ const CommentCard = ({ comment, setErr }) => {
     handleVote(event, `/comments/${comment.comment_id}`, setErr, setVotes);
   };
 
+  const handleDelete = () => {
+    setCommentDisplay(false);
+    deleteSingle(`/comments/${comment.comment_id}`).catch(() => {
+      setCommentDisplay(true);
+      setErr("An issue occured, please try again");
+      setTimeout(errReset, 5000, setErr);
+    });
+  };
+
   return (
-    <li className="border-2 border-white rounded m-4 p-2 sm:max-w-m sm:mx-auto grid grid-cols-4 grid-rows-comments">
+    <li
+      className={
+        "border-2 border-white rounded m-4 p-2 sm:max-w-m sm:mx-auto grid grid-cols-4 grid-rows-comments" +
+        (commentDisplay ? "" : " hidden")
+      }
+    >
       <span className="text-3xl font-bold p-1 my-4 col-start-1 row-start-1 row-span-2">
         {votes}
       </span>
@@ -37,6 +57,16 @@ const CommentCard = ({ comment, setErr }) => {
         {comment.author}
       </h5>
       <p className="text-left col-start-2 col-span-3 row-start-2 row-span-3 mx-2">{comment.body}</p>
+      {comment.author === user.username ? (
+        <button
+          className="rounded-full bg-white py-1 px-3 m-auto sm:hover:bg-slate-400 w-fit my-2 h-fit text-red-600"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+      ) : (
+        <></>
+      )}
     </li>
   );
 };
