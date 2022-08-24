@@ -12,7 +12,7 @@ const PopArticles = () => {
       limit: 2,
       sort_by: "votes",
       order: "desc",
-    }).then((articles) => {
+    }).then(([articles]) => {
       setArticles(articles);
       setArticlesLoading(false);
     });
