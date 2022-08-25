@@ -1,19 +1,25 @@
 import ArticleCard from "./ArticleCard";
 import { fetchLists } from "../../api";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ArticleList = ({ endpoint, params, setArticleLength }) => {
   const [articles, setArticles] = useState([]);
   const [articlesLoading, setArticlesLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setArticlesLoading(true);
-    fetchLists(endpoint, params).then(([articles, total_count]) => {
-      setArticles(articles);
-      setArticleLength(total_count);
-      setArticlesLoading(false);
-    });
-  }, [endpoint, params, setArticleLength]);
+    fetchLists(endpoint, params)
+      .then(([articles, total_count]) => {
+        setArticles(articles);
+        setArticleLength(total_count);
+        setArticlesLoading(false);
+      })
+      .catch(() => {
+        navigate("/404");
+      });
+  }, [endpoint, params, setArticleLength, navigate]);
 
   if (articlesLoading)
     return (

@@ -5,6 +5,7 @@ import LandingPage from "./components/landing/LandingPage";
 import Articles from "./components/articles/Articles";
 import TopicSlug from "./components/topicSlug/TopicSlug";
 import SingleArticle from "./components/articleId/SingleArticle";
+import NotFound from "./components/notFound/NotFound";
 import { UserContext } from "./context/user";
 import { useState } from "react";
 import { ErrContext } from "./context/err";
@@ -23,6 +24,7 @@ function App() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/topics/:slug" element={<TopicSlug />} />
             <Route path="/articles/:article_id" element={<SingleArticle />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </ErrContext.Provider>
