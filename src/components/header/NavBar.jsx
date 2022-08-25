@@ -20,12 +20,14 @@ const NavBar = () => {
 
   return (
     <nav className=" grid grid-cols-3 grid-rows-1 my-4">
-      <div className="col-auto row-auto">
-        <Link to="/articles">Articles</Link>
-      </div>
-      <div className="col-auto row-auto">
-        <span to="/topics">Topics</span>
-      </div>
+      <Link to="/articles">
+        <div className="col-auto row-auto">Articles</div>
+      </Link>
+      <Link to="/topics">
+        <div className="col-auto row-auto">
+          <span to="/topics">Topics</span>
+        </div>
+      </Link>
       {user.username ? (
         <div className="col-auto row-auto" onClick={handleSignOut}>
           <div className="grid grid-cols-[auto_auto]">
