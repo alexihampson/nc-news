@@ -19,7 +19,7 @@ function App() {
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <ErrContext.Provider value={{ err, setErr }}>
-        <div className="App">
+        <div className="App overflow-hidden top-0">
           <Header />
           <Routes>
             <Route path="/" element={<LandingPage />} />
