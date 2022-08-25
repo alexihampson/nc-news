@@ -27,3 +27,7 @@ export const patchSingle = (endpoint, body) => {
 export const postSingle = (endpoint, body) => {
   return axios.post(`https://alexi-news-api.herokuapp.com/api/${endpoint}`, body);
 };
+
+export const deleteSingle = (endpoint) => {
+  return axios.delete(`https://alexi-news-api.herokuapp.com/api/${endpoint}`);
+};
