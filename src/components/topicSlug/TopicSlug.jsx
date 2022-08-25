@@ -1,6 +1,6 @@
 import ArticleBar from "../articles/ArticleBar";
 import ArticleList from "../articles/ArticleList";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchSingles } from "../../api";
 
@@ -10,6 +10,7 @@ const TopicSlug = () => {
   const [topicLoading, setTopicLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [articleLength, setArticleLength] = useState(0);
+  const navigate = useNavigate();
 
   const params = { topic: slug };
   searchParams.forEach((value, key) => {
@@ -18,11 +19,15 @@ const TopicSlug = () => {
 
   useEffect(() => {
     setTopicLoading(true);
-    fetchSingles(`/topics/${slug}`, {}).then((data) => {
-      setTopic(data);
-      setTopicLoading(false);
-    });
-  }, [slug]);
+    fetchSingles(`/topics/${slug}`, {})
+      .then((data) => {
+        setTopic(data);
+        setTopicLoading(false);
+      })
+      .catch(() => {
+        navigate("/404");
+      });
+  }, [slug, navigate]);
 
   return (
     <div>
