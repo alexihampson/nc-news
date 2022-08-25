@@ -2,16 +2,11 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context/user";
 
-const NavBar = () => {
-  const { user, setUser } = useContext(UserContext);
+const NavBar = ({ setDisplaySignIn }) => {
+  const { user } = useContext(UserContext);
 
   const handleSignIn = () => {
-    setUser({
-      username: "grumpy19",
-      name: "Paul Grump",
-      avatar_url:
-        "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013",
-    });
+    setDisplaySignIn((curr) => !curr);
   };
 
   return (
@@ -34,7 +29,7 @@ const NavBar = () => {
           </div>
         </Link>
       ) : (
-        <div className="col-auto row-auto" onClick={handleSignIn}>
+        <div className="col-auto row-auto cursor-pointer" onClick={handleSignIn}>
           Sign In
         </div>
       )}
