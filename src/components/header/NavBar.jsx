@@ -14,10 +14,6 @@ const NavBar = () => {
     });
   };
 
-  const handleSignOut = () => {
-    setUser({ username: null });
-  };
-
   return (
     <nav className=" grid grid-cols-3 grid-rows-1 my-4">
       <Link to="/articles">
@@ -29,12 +25,14 @@ const NavBar = () => {
         </div>
       </Link>
       {user.username ? (
-        <div className="col-auto row-auto" onClick={handleSignOut}>
-          <div className="grid grid-cols-[auto_auto]">
-            <span className="col-auto">{user.username}</span>
-            <img src={user.avatar_url} alt="User Icon" className="h-5 col-auto" />
+        <Link to={`/users/${user.username}`}>
+          <div className="col-auto row-auto">
+            <div className="grid grid-cols-[auto_auto]">
+              <span className="col-auto">{user.username}</span>
+              <img src={user.avatar_url} alt="User Icon" className="h-5 col-auto" />
+            </div>
           </div>
-        </div>
+        </Link>
       ) : (
         <div className="col-auto row-auto" onClick={handleSignIn}>
           Sign In

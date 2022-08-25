@@ -7,6 +7,7 @@ import TopicSlug from "./components/topicSlug/TopicSlug";
 import SingleArticle from "./components/articleId/SingleArticle";
 import NotFound from "./components/notFound/NotFound";
 import TopicList from "./components/topics/TopicList";
+import UserPage from "./components/userPage/UserPage";
 import { UserContext } from "./context/user";
 import { useState } from "react";
 import { ErrContext } from "./context/err";
@@ -26,6 +27,7 @@ function App() {
             <Route path="/topics/:slug" element={<TopicSlug />} />
             <Route path="/articles/:article_id" element={<SingleArticle />} />
             <Route path="/topics" element={<TopicList />} />
+            <Route path="/users/:username" element={<UserPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
