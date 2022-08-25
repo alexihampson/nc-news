@@ -5,6 +5,7 @@ import CommentList from "./CommentList";
 import { handleVote, errReset } from "../../utils";
 import { UserContext } from "../../context/user";
 import { ErrContext } from "../../context/err";
+import { useNavigate } from "react-router-dom";
 
 const SingleArticle = () => {
   const { user } = useContext(UserContext);
@@ -17,6 +18,7 @@ const SingleArticle = () => {
   const [comments, setComments] = useState([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [commentDisplay, setCommentDisplay] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setArticleLoading(true);
@@ -35,8 +37,11 @@ const SingleArticle = () => {
       .then(([comments]) => {
         setComments(comments);
         setCommentsLoading(false);
+      })
+      .catch(() => {
+        navigate("/404");
       });
-  }, [article_id]);
+  }, [article_id, navigate]);
 
   const handleButton = (event) => {
     handleVote(event, `/articles/${article_id}`, setErr, setVotes);

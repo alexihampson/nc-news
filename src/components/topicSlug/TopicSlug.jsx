@@ -27,7 +27,7 @@ const TopicSlug = () => {
       .catch(() => {
         navigate("/404");
       });
-  }, [slug]);
+  }, [slug, navigate]);
 
   return (
     <div>
