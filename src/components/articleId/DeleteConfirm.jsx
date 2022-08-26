@@ -1,25 +1,23 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { deleteSingle } from "../../api";
 import { ErrContext } from "../../context/err";
 import { errReset } from "../../utils";
 
-const DeleteConfirm = ({ setDisplayDelete, article_id }) => {
+const DeleteConfirm = ({ setDisplayDelete, endpoint, onDelete }) => {
   const { setErr } = useContext(ErrContext);
-  const navigate = useNavigate();
 
   const handleClose = () => {
     setDisplayDelete((curr) => !curr);
   };
 
   const handleDelete = () => {
-    deleteSingle(`/articles/${article_id}`)
+    deleteSingle(endpoint)
       .then(() => {
-        navigate("/articles");
+        onDelete();
       })
       .catch(() => {
         setDisplayDelete(false);
-        setErr("Unable to delete article, please try again");
+        setErr("Unable to delete, please try again");
         setTimeout(errReset, 5000, setErr);
       });
   };
@@ -45,7 +43,7 @@ const DeleteConfirm = ({ setDisplayDelete, article_id }) => {
           </div>
           <div className="grid grid-cols-2 grid-rows-[auto_auto]">
             <span className="col-start-1 col-span-2 row-auto">
-              Are you sure you want to delete this article?
+              Are you sure you want to delete?
             </span>
             <button
               className="rounded-full bg-white py-2 px-3 m-4 sm:hover:bg-slate-400 disabled:opacity-50"
