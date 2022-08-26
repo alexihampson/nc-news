@@ -7,7 +7,7 @@ const ArticleCard = ({ article, pretty }) => {
 
   if (pretty)
     return (
-      <li className="border-2 border-white rounded m-4 p-2 shadow-md shadow-sky-800 sm:max-w-2xl sm:mx-auto sm:hover:shadow-lg sm:hover:shadow-sky-800 sm:h-72">
+      <li className="border-2 border-white rounded m-4 p-2 shadow-md shadow-sky-800 sm:max-w-2xl sm:mx-auto sm:hover:shadow-lg sm:hover:shadow-sky-800 sm:h-72 w-full">
         <Link to={`/articles/${article.article_id}`}>
           <h4 className="text-l font-bold p-1">{article.title}</h4>
         </Link>
@@ -26,7 +26,7 @@ const ArticleCard = ({ article, pretty }) => {
     );
 
   return (
-    <li className="border-2 border-white rounded m-4 p-2 sm:max-w-2xl sm:mx-auto shadow shadow-sky-800 sm:hover:shadow-lg sm:hover:shadow-sky-800 sm:h-44">
+    <li className="border-2 border-white rounded m-4 p-2 sm:max-w-2xl sm:mx-auto shadow shadow-sky-800 sm:hover:shadow-lg sm:hover:shadow-sky-800 sm:h-44 w-full">
       <Link to={`/articles/${article.article_id}`}>
         <h4 className="text-l font-bold p-1">{article.title}</h4>
       </Link>
