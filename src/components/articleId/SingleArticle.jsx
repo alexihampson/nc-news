@@ -71,6 +71,10 @@ const SingleArticle = () => {
     setDisplayDelete((curr) => !curr);
   };
 
+  const onDelete = () => {
+    navigate("/articles");
+  };
+
   return (
     <>
       <div className="sm:grid sm:grid-cols-3">
@@ -176,7 +180,11 @@ const SingleArticle = () => {
         </div>
       </div>
       {displayDelete ? (
-        <DeleteConfirm setDisplayDelete={setDisplayDelete} article_id={article_id} />
+        <DeleteConfirm
+          setDisplayDelete={setDisplayDelete}
+          endpoint={`/articles/${article_id}`}
+          onDelete={onDelete}
+        />
       ) : (
         <></>
       )}
