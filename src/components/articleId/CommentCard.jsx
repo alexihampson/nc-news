@@ -36,7 +36,7 @@ const CommentCard = ({ comment, setComments }) => {
   return (
     <li
       className={
-        "border-2 border-white rounded m-4 p-2 sm:max-w-m sm:mx-auto grid grid-cols-4 grid-rows-comments" +
+        "border-2 border-white rounded m-4 p-2 sm:max-w-m sm:mx-auto grid grid-cols-4 grid-rows-comments shadow shadow-sky-800 sm:hover:shadow-lg sm:hover:shadow-sky-800" +
         (commentDisplay ? "" : " hidden")
       }
     >
