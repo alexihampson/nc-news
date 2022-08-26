@@ -30,8 +30,8 @@ const DeleteConfirm = ({ setDisplayDelete, article_id }) => {
         className="h-screen w-screen bg-black opacity-50 fixed top-0"
         onClick={handleClose}
       ></div>
-      <div className="h-screen w-screen fixed top-32">
-        <div className="border-2 border-white bg-sky-300 rounded m-4 p-2 sm:max-w-xl sm:mx-auto mx-auto w-11/12 opacity-100">
+      <div className="h-screen w-screen fixed top-32 pointer-events-none">
+        <div className="border-2 border-white bg-sky-300 rounded m-4 p-2 sm:max-w-xl sm:mx-auto mx-auto w-11/12 opacity-100 pointer-events-auto">
           <div className="grid grid-cols-[90%_10%] grid-rows-1">
             <h3 className="text-lg font-bold p-1 m-1 col-start-1 col-span-2 row-start-1">
               Are you sure?
