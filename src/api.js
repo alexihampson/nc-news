@@ -21,13 +21,13 @@ export const fetchSingles = (endpoint, params) => {
 };
 
 export const patchSingle = (endpoint, body) => {
-  return axios.patch(`https://alexi-news-api.herokuapp.com/api/${endpoint}`, body);
+  return axios.patch(`https://alexi-news-api.herokuapp.com/api${endpoint}`, body);
 };
 
 export const postSingle = (endpoint, body) => {
-  return axios.post(`https://alexi-news-api.herokuapp.com/api/${endpoint}`, body);
+  return axios.post(`https://alexi-news-api.herokuapp.com/api${endpoint}`, body);
 };
 
 export const deleteSingle = (endpoint) => {
-  return axios.delete(`https://alexi-news-api.herokuapp.com/api/${endpoint}`);
+  return axios.delete(`https://alexi-news-api.herokuapp.com/api${endpoint}`);
 };
