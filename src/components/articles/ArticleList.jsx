@@ -30,7 +30,7 @@ const ArticleList = ({ endpoint, params, setArticleLength }) => {
 
   return (
     <div>
-      <ul className="flex flex-wrap">
+      <ul className="flex flex-wrap mx-3">
         {articles.map((article, index) => {
           return <ArticleCard key={index} article={article} pretty={index === 0} />;
         })}

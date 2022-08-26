@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchLists, postSingle } from "../../api";
 import { UserContext } from "../../context/user";
+import CreateTopic from "./CreateTopic";
 
 const CreateArticle = () => {
   const { user } = useContext(UserContext);
@@ -9,6 +10,7 @@ const CreateArticle = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const [articleSending, setArticleSending] = useState(false);
   const [articleSent, setArticleSent] = useState(false);
+  const [displayTopic, setDisplayTopic] = useState(false);
   const navigate = useNavigate();
 
   const processTopicName = (name) => {
@@ -19,7 +21,7 @@ const CreateArticle = () => {
   useEffect(() => {
     setPageLoading(true);
     fetchLists("/topics", {}).then(([topics]) => {
-      setTopics(topics.map((topic) => topic.slug));
+      setTopics(topics);
       setPageLoading(false);
     });
   }, []);
@@ -41,6 +43,11 @@ const CreateArticle = () => {
 
   const handleView = () => {
     navigate("/articles");
+  };
+
+  const handleTopic = (event) => {
+    event.preventDefault();
+    setDisplayTopic((curr) => !curr);
   };
 
   if (pageLoading)
@@ -107,26 +114,32 @@ const CreateArticle = () => {
           <label htmlFor="topic" className="col-auto row-auto h-fit w-2/3 m-auto text-lg font-bold">
             Topic:{" "}
           </label>
-          <select name="topic" className="col-auto row-auto h-fit w-10/12 m-auto" required>
-            {topics.map((topic) => {
+          <select
+            name="topic"
+            className="col-auto row-auto h-fit w-10/12 m-auto"
+            defaultValue={topics[0]}
+            required
+          >
+            {topics.map((topic, index) => {
               return (
                 <option
-                  key={topic}
-                  value={topic}
-                  label={processTopicName(topic)}
+                  key={topic.slug}
+                  value={topic.slug}
+                  label={processTopicName(topic.slug)}
                   className="capitalize"
                 >
-                  {processTopicName(topic)}
+                  {processTopicName(topic.slug)}
                 </option>
               );
             })}
           </select>
           <button
-            onClick={(event) => event.preventDefault()}
+            onClick={handleTopic}
             className="col-auto row-auto rounded-full bg-white py-2 px-3 m-4 sm:hover:bg-slate-400 col-auto disabled:opacity-50"
           >
             New Topic
           </button>
+
           <button
             className="col-auto col-span-3 row-auto rounded-full bg-white py-2 px-3 my-4 mx-auto w-fit sm:hover:bg-slate-400 col-auto disabled:opacity-50"
             disabled={!user.username}
@@ -135,6 +148,13 @@ const CreateArticle = () => {
           </button>
         </form>
       </div>
+      {displayTopic ? (
+        <div>
+          <CreateTopic setDisplayTopic={setDisplayTopic} setTopics={setTopics} />
+        </div>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
